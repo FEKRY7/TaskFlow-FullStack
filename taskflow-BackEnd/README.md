@@ -1,8 +1,8 @@
-# 🚀 Task Management System API
+# 🚀 TaskFlow Backend API
 
-A RESTful Task Management API built with **NestJS**, **TypeORM**, and **PostgreSQL**.
+A production-ready RESTful Task Management API built with **NestJS**, **TypeORM**, and **PostgreSQL**.
 
-This project provides authentication, role-based authorization, project management, task management, and interactive API documentation using Swagger.
+This backend provides secure authentication, role-based authorization, project management, task management, request validation, and interactive API documentation using Swagger.
 
 ---
 
@@ -12,21 +12,21 @@ This project provides authentication, role-based authorization, project manageme
 - User Registration
 - User Login
 - JWT Authentication
-- Current Logged-in User
+- Get Current Authenticated User
 
 ## Authorization
 - Role-Based Access Control (Admin / Member)
 - Resource-Based Authorization
-- Only project owners can update/delete their projects
-- Only task creators can update/delete their tasks
-- Admin can manage all resources
+- Only project owners can update or delete their projects
+- Only task creators can update or delete their tasks
+- Admins can manage all resources
 
 ## Project Management
 - Create Project
 - Update Project
 - Delete Project
 - Get My Projects
-- Get Project By Id
+- Get Project By ID
 - Add Members to Project
 - Remove Members from Project
 
@@ -35,11 +35,11 @@ This project provides authentication, role-based authorization, project manageme
 - Update Task
 - Delete Task
 - Get All Tasks
-- Get Task By Id
+- Get Task By ID
 - Filter Tasks
-    - By Status
-    - By Priority
-    - By Assigned User
+  - By Status
+  - By Priority
+  - By Assigned User
 
 ## Validation
 - Global Validation Pipe
@@ -48,7 +48,7 @@ This project provides authentication, role-based authorization, project manageme
 
 ## API Documentation
 - Swagger UI
-- JWT Authorization inside Swagger
+- JWT Authorization Support
 
 ---
 
@@ -61,8 +61,8 @@ This project provides authentication, role-based authorization, project manageme
 - JWT
 - Passport
 - Bcrypt
-- Class Validator
-- Class Transformer
+- class-validator
+- class-transformer
 - Swagger
 
 ---
@@ -91,8 +91,9 @@ Clone the repository
 
 ```bash
 git clone https://github.com/FEKRY7/TaskFlow-FullStack.git
+```
 
-Move to project
+Navigate to the backend folder
 
 ```bash
 cd TaskFlow-FullStack/taskflow-BackEnd
@@ -108,24 +109,31 @@ npm install
 
 # 🔐 Environment Variables
 
-Create a `.env` file.
+Create a `.env` file using the provided `.env.example`.
+
+Example:
 
 ```env
-PORT=3000
-
-DB_HOST=localhost
+# Database
+DB_USERNAME=your_database_username
+DB_PASSWORD=your_database_password
+DB_HOST=your_database_host
 DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=your_password
-DB_DATABASE=task_management
+DB_DATABASE=your_database_name
 
-JWT_SECRET=your_secret_key
-JWT_EXPIRES_IN=7d
+# JWT
+JWT_SECRET=your_jwt_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+JWT_EXPIRES_IN=2h
+JWT_EXPIRES_IN2=15d
+
+# Server
+PORT=3000
 ```
 
 ---
 
-# ▶️ Run Project
+# ▶️ Running the Application
 
 Development
 
@@ -142,17 +150,17 @@ npm run start:prod
 
 ---
 
-# 📚 Swagger Documentation
+# 📚 API Documentation
 
-After starting the project open
+After starting the server, open:
 
 ```
 http://localhost:3000/api/docs
 ```
 
-Swagger supports JWT Authorization.
+Swagger supports JWT authentication.
 
-Click **Authorize**
+Click **Authorize** and enter:
 
 ```
 Bearer YOUR_ACCESS_TOKEN
@@ -162,19 +170,19 @@ Bearer YOUR_ACCESS_TOKEN
 
 # 🔑 Authentication Endpoints
 
-## Register
+### Register
 
 ```
 POST /api/users/auth/signUp
 ```
 
-## Login
+### Login
 
 ```
 POST /api/users/auth/login
 ```
 
-## Current User
+### Current User
 
 ```
 GET /api/users/current-user
@@ -184,37 +192,37 @@ GET /api/users/current-user
 
 # 📁 Project Endpoints
 
-## Create Project
+### Create Project
 
 ```
 POST /api/projects
 ```
 
-## Get My Projects
+### Get My Projects
 
 ```
 GET /api/projects
 ```
 
-## Get Project By Id
+### Get Project By ID
 
 ```
 GET /api/projects/:id
 ```
 
-## Update Project
+### Update Project
 
 ```
 PATCH /api/projects/:id
 ```
 
-## Delete Project
+### Delete Project
 
 ```
 DELETE /api/projects/:id
 ```
 
-## Add Member
+### Add Member
 
 ```
 POST /api/projects/:id/members
@@ -224,11 +232,11 @@ Request Body
 
 ```json
 {
-    "memberId": 2
+  "memberId": 2
 }
 ```
 
-## Remove Member
+### Remove Member
 
 ```
 DELETE /api/projects/:id/members/:memberId
@@ -238,49 +246,46 @@ DELETE /api/projects/:id/members/:memberId
 
 # ✅ Task Endpoints
 
-## Create Task
+### Create Task
 
 ```
 POST /api/tasks
 ```
 
-## Get All Tasks
+### Get All Tasks
 
 ```
 GET /api/tasks
 ```
 
-## Filter Tasks
+### Filter Tasks
 
 ```
 GET /api/tasks/filter
 ```
 
-Example
+Examples
 
 ```
 GET /api/tasks/filter?status=TODO
-
 GET /api/tasks/filter?priority=HIGH
-
 GET /api/tasks/filter?assigneeId=3
-
 GET /api/tasks/filter?status=IN_PROGRESS&priority=HIGH
 ```
 
-## Get Task By Id
+### Get Task By ID
 
 ```
 GET /api/tasks/:id
 ```
 
-## Update Task
+### Update Task
 
 ```
 PATCH /api/tasks/:id
 ```
 
-## Delete Task
+### Delete Task
 
 ```
 DELETE /api/tasks/:id
@@ -292,20 +297,17 @@ DELETE /api/tasks/:id
 
 ## Admin
 
-- Create Projects
-- Update Any Project
-- Delete Any Project
-- Add Members
-- Remove Members
-- Manage All Tasks
+- Manage all projects
+- Manage all tasks
+- Add and remove project members
 
 ## Member
 
-- Create Projects
-- View Only Projects They Belong To
-- Update/Delete Only Their Own Projects
-- Create Tasks
-- Update/Delete Only Tasks They Created
+- Create projects
+- View only accessible projects
+- Update/Delete only owned projects
+- Create tasks
+- Update/Delete only created tasks
 
 ---
 
@@ -331,13 +333,13 @@ HIGH
 
 # ✅ Validation
 
-The project uses
+The application uses:
 
 - ValidationPipe
 - class-validator
 - class-transformer
 
-to validate incoming requests.
+to validate and sanitize incoming requests.
 
 ---
 
@@ -352,6 +354,17 @@ to validate incoming requests.
 
 ---
 
+# 🧪 Testing
+
+Create users through the Register endpoint.
+
+To test role-based authorization, update the user's role in the database to:
+
+- `ADMIN`
+- `MEMBER`
+
+---
+
 # 📖 Swagger Features
 
 - Interactive API Documentation
@@ -361,35 +374,15 @@ to validate incoming requests.
 
 ---
 
-# 🚀 Future Improvements
-
-- Unit Testing
-- Docker Support
-- Pagination
-- Search
-- Email Verification
-- Refresh Tokens
-- Logging
-- Rate Limiting
-
----
-
 # 👨‍💻 Author
 
 ## Fekry Bahaa
 
 Backend Developer
 
-### Tech Stack
-
 - NestJS
 - TypeScript
 - Node.js
 - PostgreSQL
 - TypeORM
-- JWT
 - REST APIs
-
----
-
-# ⭐ Thank You
